@@ -17,6 +17,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Free Meeting Cost Calculator",
   description: "Calculate the cost of your meetings",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({

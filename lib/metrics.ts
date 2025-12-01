@@ -60,13 +60,7 @@ export function calculateEfficiencyScore(meetings: Meeting[]): number {
 
 export function getPayForXComparisons(totalCost: number) {
   // Get one best fit from each category
-  const categories: ItemCategory[] = [
-    "daily",
-    "business",
-    "luxury",
-    "expensive",
-    "bonus",
-  ];
+  const categories: ItemCategory[] = ["daily", "business", "luxury", "tesla"];
 
   return categories
     .map((category) => {
@@ -101,9 +95,10 @@ export function getCategorizedPayForX(totalCost: number) {
   const categories: ItemCategory[] = [
     "daily",
     "luxury",
-    "business",
-    "expensive",
+    "tesla",
+    "housing",
     "extra-luxury",
+    "daily",
   ];
 
   PAY_FOR_X_ITEMS.forEach((item) => {

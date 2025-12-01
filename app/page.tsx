@@ -51,7 +51,7 @@ export default function LandingPage() {
             size="lg"
             className="text-base md:text-lg h-12 px-6 md:px-8 border-neutral-200 bg-transparent text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 w-full sm:w-auto"
           >
-            <Link href="/demo">View Demo</Link>
+            <Link href="/cost">View Demo</Link>
           </Button>
         </div>
 

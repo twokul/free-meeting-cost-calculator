@@ -8,7 +8,7 @@ export type ItemCategory =
   | "daily"
   | "luxury"
   | "business"
-  | "expensive"
+  | "tesla"
   | "housing"
   | "extra-luxury";
 
@@ -38,10 +38,10 @@ export const PAY_FOR_X_ITEMS = [
   { name: "Luxury Smartwatch", cost: 1200, icon: "⌚", category: "luxury" },
 
   // Transportation
-  { name: "Tesla Model 3", cost: 38990, icon: "🚗", category: "expensive" },
-  { name: "Tesla Model S", cost: 99990, icon: "🚗", category: "expensive" },
-  { name: "Tesla Cybertruck", cost: 110000, icon: "🚗", category: "expensive" },
-  { name: "Tesla Roadster", cost: 250000, icon: "🚗", category: "expensive" },
+  { name: "Tesla Model 3", cost: 38990, icon: "🚗", category: "tesla" },
+  { name: "Tesla Model S", cost: 99990, icon: "🚗", category: "tesla" },
+  { name: "Tesla Cybertruck", cost: 110000, icon: "🚗", category: "tesla" },
+  { name: "Tesla Roadster", cost: 250000, icon: "🚗", category: "tesla" },
 
   // Housing
   { name: "House Down Payment", cost: 83000, icon: "🏠", category: "housing" },

@@ -15,8 +15,7 @@ export function Footer() {
   return (
     <footer className="flex flex-col items-center gap-4 py-6 text-center text-sm text-neutral-500 px-2">
       <p>
-        Meeting data is processed locally. No data is stored. Free Meeting Cost
-        Calculator by{" "}
+        Meeting data is processed locally. No data is stored. Made by{" "}
         <a
           href="https://x.com/twokul"
           target="_blank"

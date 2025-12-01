@@ -1,15 +1,22 @@
 import { Button } from "@/components/ui/button";
 import { Calendar } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function LandingPage() {
   return (
     <div className="flex-1 bg-white text-neutral-950 flex flex-col items-center justify-center text-center px-4 py-8 gap-6 md:gap-8">
       <div className="max-w-4xl mx-auto flex flex-col items-center gap-6 md:gap-8">
+        <Image
+          src="/landing.png"
+          alt="Free Meeting Cost Calculator - Time is Money. Calculate & Save!"
+          width={800}
+          height={600}
+          className="w-full max-w-md h-auto rounded-2xl border border-neutral-200 shadow-lg"
+          priority
+        />
         <div className="space-y-4">
-          <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold tracking-tighter text-neutral-900">
-            Free Meeting Cost Calculator
-          </h1>
+          <h1 className="sr-only">Free Meeting Cost Calculator</h1>
           <p className="text-base md:text-xl text-neutral-600 max-w-2xl mx-auto">
             Connect your calendar and instantly see how much your company spends
             on meetings. Find the waste, optimize your schedule, and save

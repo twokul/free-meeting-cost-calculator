@@ -1,6 +1,16 @@
+import { Metadata } from "next";
 import { fetchMeetingData } from "@/app/actions/calendar";
 import DashboardWrapper from "./dashboard-wrapper";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: "Your Meeting Costs",
+  description: "View your personalized meeting cost analysis.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default async function DashboardPage() {
   // Fetch 30 days of data by default

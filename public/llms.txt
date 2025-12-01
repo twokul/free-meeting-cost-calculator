@@ -1,0 +1,35 @@
+# Free Meeting Cost Calculator
+
+> Calculate the real cost of your meetings
+
+## What is this?
+
+Free Meeting Cost Calculator is a web application that helps you understand how much your company spends on meetings. Connect your Google Calendar to see personalized insights, or try the demo with sample data.
+
+## Key Features
+
+- **Google Calendar Integration**: Connect your calendar to analyze your actual meetings
+- **Role-Based Estimates**: See meeting costs for different roles (Software Engineer, Product Manager, Director, C-Level, etc.)
+- **Cost Breakdown**: View daily, weekly, and monthly meeting costs
+- **Meeting Analytics**: Identify which meetings are most expensive and which could be optimized
+- **Privacy First**: Meeting data is processed locally; no data is stored on our servers
+
+## How to Use
+
+1. Visit https://free-meeting-cost-calculator.com
+2. Either:
+   - Click "Connect Google Calendar" to analyze your real meetings
+   - Click "View Demo" to see sample data for different roles
+3. Adjust the hourly rate to match your situation
+4. Review the cost breakdown and identify optimization opportunities
+
+## Pages
+
+- `/` - Landing page with options to connect calendar or view demo
+- `/cost/[role]` - Demo calculator with sample data for a specific role
+- `/dashboard` - Personal meeting analysis (requires Google Calendar connection)
+- `/share` - Shareable results page
+
+## Contact
+
+Created by @twokul on X (Twitter)

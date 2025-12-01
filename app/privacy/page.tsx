@@ -78,6 +78,18 @@ export default function PrivacyPage() {
 
           <section className="space-y-3">
             <h2 className="text-xl font-medium text-neutral-900">
+              Data Protection
+            </h2>
+            <p>
+              All communication with Google services uses encrypted HTTPS
+              connections. Your calendar data is processed entirely in your
+              browser and is never transmitted to or stored on our servers,
+              ensuring your information remains secure and private.
+            </p>
+          </section>
+
+          <section className="space-y-3">
+            <h2 className="text-xl font-medium text-neutral-900">
               Google OAuth
             </h2>
             <p>

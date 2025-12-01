@@ -23,12 +23,12 @@ export async function generateMetadata({
 
   const title = `${qty}× ${item} — MeetingCost`;
   const description = `My meetings cost $${Number(
-    cost
+    cost,
   ).toLocaleString()} — enough for ${qty} ${item}! Calculate yours.`;
 
   const ogUrl = new URL(
     "/api/og",
-    process.env.NEXT_PUBLIC_BASE_URL || "https://meetingcost.com"
+    process.env.NEXT_PUBLIC_BASE_URL || "https://meetingcost.com",
   );
   ogUrl.searchParams.set("item", item);
   ogUrl.searchParams.set("icon", icon);

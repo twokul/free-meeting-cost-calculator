@@ -6,8 +6,8 @@ export default async function DashboardPage() {
   // Fetch 30 days of data by default
   const { meetings, error } = await fetchMeetingData(30);
 
-  if (error === 'Not authenticated') {
-    redirect('/api/auth/google');
+  if (error === "Not authenticated") {
+    redirect("/api/auth/google");
   }
 
   if (error) {
@@ -23,4 +23,3 @@ export default async function DashboardPage() {
 
   return <DashboardClient initialMeetings={meetings} />;
 }
-

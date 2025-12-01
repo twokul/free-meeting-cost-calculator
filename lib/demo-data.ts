@@ -140,7 +140,7 @@ export function getRoleHourlyRate(role: DemoRole): number {
 
 export function generateDemoMeetings(
   days: number = 30,
-  role: DemoRole = "software-engineer"
+  role: DemoRole = "software-engineer",
 ): Meeting[] {
   const meetings: Meeting[] = [];
   const now = new Date();
@@ -155,7 +155,7 @@ export function generateDemoMeetings(
     const numMeetings =
       Math.floor(
         Math.random() *
-          (config.meetingsPerDay.max - config.meetingsPerDay.min + 1)
+          (config.meetingsPerDay.max - config.meetingsPerDay.min + 1),
       ) + config.meetingsPerDay.min;
 
     for (let j = 0; j < numMeetings; j++) {
@@ -169,7 +169,7 @@ export function generateDemoMeetings(
       // Determine attendees
       let attendees =
         Math.floor(
-          Math.random() * (config.attendees.max - config.attendees.min + 1)
+          Math.random() * (config.attendees.max - config.attendees.min + 1),
         ) + config.attendees.min;
       if (config.attendees.skewLarge && Math.random() > 0.8) attendees *= 2; // Occasional huge meeting
 

@@ -42,39 +42,42 @@ export default function DashboardClient({
 
   const totalCost = useMemo(
     () => meetings.reduce((acc, m) => acc + m.cost, 0),
-    [meetings]
+    [meetings],
   );
 
   const efficiencyScore = useMemo(
     () => calculateEfficiencyScore(meetings),
-    [meetings]
+    [meetings],
   );
 
   const categorizedPayForX = useMemo(
     () => getCategorizedPayForX(totalCost),
-    [totalCost]
+    [totalCost],
   );
 
   const cleanupSuggestions = useMemo(
-    () => getCalendarCleanupSuggestions(meetings),
-    [meetings]
+    () => getCalendarCleanupSuggestions(meetings, hourlyRate),
+    [meetings, hourlyRate],
   );
 
   const meetingTax = useMemo(() => calculateMentalTax(meetings), [meetings]);
 
   const dailyData = useMemo(() => {
-    const grouped = meetings.reduce((acc, m) => {
-      const dateObj = new Date(m.startTime);
-      const date = dateObj.toISOString().split("T")[0];
+    const grouped = meetings.reduce(
+      (acc, m) => {
+        const dateObj = new Date(m.startTime);
+        const date = dateObj.toISOString().split("T")[0];
 
-      if (!acc[date]) acc[date] = { date, cost: 0, count: 0 };
-      acc[date].cost += m.cost;
-      acc[date].count += 1;
-      return acc;
-    }, {} as Record<string, { date: string; cost: number; count: number }>);
+        if (!acc[date]) acc[date] = { date, cost: 0, count: 0 };
+        acc[date].cost += m.cost;
+        acc[date].count += 1;
+        return acc;
+      },
+      {} as Record<string, { date: string; cost: number; count: number }>,
+    );
 
     return Object.values(grouped).sort(
-      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
     );
   }, [meetings]);
 

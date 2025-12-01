@@ -1,7 +1,8 @@
 export function Footer() {
   return (
     <footer className="py-6 text-center text-sm text-neutral-500">
-      Free Meeting Cost Calculator by{" "}
+      Meeting data is processed locally. No data is stored. Free Meeting Cost
+      Calculator by{" "}
       <a
         href="https://x.com/twokul"
         target="_blank"

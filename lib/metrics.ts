@@ -55,6 +55,7 @@ export interface Meeting {
  * @param durationInHours - Meeting duration in decimal hours
  * @param attendees - Number of people in the meeting (including you)
  * @param hourlyRate - Your hourly rate
+ * @param blendedRate - Blended rate for other attendees (default: BLENDED_HOURLY_RATE)
  * @returns Total meeting cost in currency units
  *
  * @example
@@ -66,41 +67,47 @@ export function calculateMeetingCost(
   durationInHours: number,
   attendees: number,
   hourlyRate: number,
+  blendedRate: number = BLENDED_HOURLY_RATE,
 ): number {
   if (attendees <= 0) return 0;
   const otherAttendees = Math.max(0, attendees - 1);
-  const totalHourlyRate = hourlyRate + otherAttendees * BLENDED_HOURLY_RATE;
+  const totalHourlyRate = hourlyRate + otherAttendees * blendedRate;
   return durationInHours * totalHourlyRate;
 }
 
 /**
- * Context switch cost in hours (20 minutes).
+ * Default context switch cost in hours (20 minutes).
  * Based on Gloria Mark's research at UC Irvine which found it takes
  * approximately 23 minutes to refocus after an interruption.
  * We use 20 minutes (0.33 hours) as a conservative estimate.
  *
  * @see https://www.ics.uci.edu/~gmark/chi08-mark.pdf
  */
-const CONTEXT_SWITCH_COST_HOURS = 0.33;
+const DEFAULT_CONTEXT_SWITCH_MINUTES = 20;
 
 /**
  * Calculates the total "mental tax" from context switching between meetings.
  *
- * **Formula:** `numberOfMeetings × 0.33 hours`
+ * **Formula:** `numberOfMeetings × contextSwitchCost`
  *
  * Each meeting requires mental setup and teardown time. Research by Gloria Mark
  * at UC Irvine shows it takes ~23 minutes to fully refocus after an interruption.
  * This function estimates the hidden productivity cost of fragmented schedules.
  *
  * @param meetings - Array of meetings to analyze
+ * @param contextSwitchMinutes - Minutes lost per context switch (default: 20)
  * @returns Total hours lost to context switching
  *
  * @example
  * // 10 meetings = ~3.3 hours lost to context switching
  * calculateMentalTax(meetingsArray) // returns 3.3
  */
-export function calculateMentalTax(meetings: Meeting[]): number {
-  return meetings.length * CONTEXT_SWITCH_COST_HOURS;
+export function calculateMentalTax(
+  meetings: Meeting[],
+  contextSwitchMinutes: number = DEFAULT_CONTEXT_SWITCH_MINUTES,
+): number {
+  const contextSwitchHours = contextSwitchMinutes / 60;
+  return meetings.length * contextSwitchHours;
 }
 
 /**

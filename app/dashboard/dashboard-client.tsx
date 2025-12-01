@@ -9,7 +9,6 @@ import {
   getCalendarCleanupSuggestions,
   getCategorizedPayForX,
 } from "@/lib/metrics";
-import { BENCHMARKS } from "@/lib/constants";
 import {
   DashboardHeader,
   MetricCard,
@@ -18,27 +17,42 @@ import {
   PayForXCard,
 } from "@/components/dashboard";
 import { DollarSign, TrendingDown, CheckCircle2 } from "lucide-react";
+import {
+  CalculatorSettings,
+  DEFAULT_SETTINGS,
+} from "@/components/SettingsDialog";
 
 interface DashboardClientProps {
   initialMeetings: Meeting[];
+  settings?: CalculatorSettings;
+  onSettingsChange?: (settings: CalculatorSettings) => void;
   demoRate?: number;
 }
 
 export default function DashboardClient({
   initialMeetings,
+  settings: externalSettings,
+  onSettingsChange,
   demoRate,
 }: DashboardClientProps) {
   const [userHourlyRate, setUserHourlyRate] = useState(100);
 
-  const hourlyRate = demoRate ?? userHourlyRate;
+  // Use external settings if provided, otherwise use defaults
+  const settings = externalSettings ?? DEFAULT_SETTINGS;
+  const hourlyRate = demoRate ?? settings.hourlyRate ?? userHourlyRate;
   const currencySymbol = "$";
 
   const meetings = useMemo(() => {
     return initialMeetings.map((m) => ({
       ...m,
-      cost: calculateMeetingCost(m.durationInHours, m.attendees, hourlyRate),
+      cost: calculateMeetingCost(
+        m.durationInHours,
+        m.attendees,
+        hourlyRate,
+        settings.blendedHourlyRate,
+      ),
     }));
-  }, [initialMeetings, hourlyRate]);
+  }, [initialMeetings, hourlyRate, settings.blendedHourlyRate]);
 
   const totalCost = useMemo(
     () => meetings.reduce((acc, m) => acc + m.cost, 0),
@@ -60,7 +74,10 @@ export default function DashboardClient({
     [meetings, hourlyRate],
   );
 
-  const meetingTax = useMemo(() => calculateMentalTax(meetings), [meetings]);
+  const meetingTax = useMemo(
+    () => calculateMentalTax(meetings, settings.contextSwitchMinutes),
+    [meetings, settings.contextSwitchMinutes],
+  );
 
   const dailyData = useMemo(() => {
     const grouped = meetings.reduce(
@@ -87,8 +104,8 @@ export default function DashboardClient({
         <DashboardHeader
           hourlyRate={hourlyRate}
           currencySymbol={currencySymbol}
-          isDemo={!!demoRate}
-          onHourlyRateChange={setUserHourlyRate}
+          settings={settings}
+          onSettingsChange={onSettingsChange}
         />
 
         {/* Key Metrics */}
@@ -102,7 +119,7 @@ export default function DashboardClient({
           <MetricCard
             title="Mental Tax"
             value={`+${Math.round(meetingTax)} hrs`}
-            description="Lost to context switching (+20m per meeting)"
+            description={`Lost to context switching (+${settings.contextSwitchMinutes}m per meeting)`}
             icon={TrendingDown}
             valueClassName="text-amber-600"
           />
@@ -112,7 +129,7 @@ export default function DashboardClient({
             description="Avg. score based on duration & attendees"
             icon={CheckCircle2}
             valueClassName={
-              efficiencyScore >= BENCHMARKS.EFFICIENCY_SCORE_GOOD
+              efficiencyScore >= settings.efficiencyScoreThreshold
                 ? "text-green-600"
                 : "text-amber-600"
             }

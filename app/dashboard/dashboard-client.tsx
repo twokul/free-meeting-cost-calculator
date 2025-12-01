@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import {
   Meeting,
   calculateMeetingCost,
@@ -35,11 +35,9 @@ export default function DashboardClient({
   onSettingsChange,
   demoRate,
 }: DashboardClientProps) {
-  const [userHourlyRate, setUserHourlyRate] = useState(100);
-
   // Use external settings if provided, otherwise use defaults
   const settings = externalSettings ?? DEFAULT_SETTINGS;
-  const hourlyRate = demoRate ?? settings.hourlyRate ?? userHourlyRate;
+  const hourlyRate = demoRate ?? settings.hourlyRate;
   const currencySymbol = "$";
 
   const meetings = useMemo(() => {

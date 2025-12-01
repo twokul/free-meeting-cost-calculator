@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import DashboardClient from "../../dashboard/dashboard-client";
+import DashboardClient from "@/app/dashboard/dashboard-client";
 import {
   generateDemoMeetings,
   DemoRole,
@@ -13,7 +13,6 @@ import {
 } from "@/lib/demo-data";
 import { Button } from "@/components/ui/button";
 import {
-  SettingsDialog,
   CalculatorSettings,
   DEFAULT_SETTINGS,
 } from "@/components/SettingsDialog";
@@ -30,11 +29,13 @@ export default function CostPage() {
     ...DEFAULT_SETTINGS,
     hourlyRate: roleRate,
   }));
+  const [prevRoleRate, setPrevRoleRate] = useState(roleRate);
 
-  // Update hourly rate when role changes
-  useMemo(() => {
+  // Update hourly rate when role changes (derived state pattern)
+  if (roleRate !== prevRoleRate) {
+    setPrevRoleRate(roleRate);
     setSettings((prev) => ({ ...prev, hourlyRate: roleRate }));
-  }, [roleRate]);
+  }
 
   const demoMeetings = useMemo(() => {
     return generateDemoMeetings(30, role);

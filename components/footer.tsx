@@ -26,15 +26,24 @@ export function Footer() {
         </a>
         . © {new Date().getFullYear()}
       </p>
-      <a
-        href="https://github.com/twokul/free-meeting-cost-calculator"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex items-center gap-1 text-neutral-700 hover:text-black transition-colors"
-      >
-        <GitHubIcon className="h-4 w-4" />
-        GitHub
-      </a>
+      <div className="flex items-center gap-4">
+        <a
+          href="https://github.com/twokul/free-meeting-cost-calculator"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1 text-neutral-700 hover:text-black transition-colors"
+        >
+          <GitHubIcon className="h-4 w-4" />
+          GitHub
+        </a>
+        <span className="text-neutral-300">·</span>
+        <a
+          href="/privacy"
+          className="text-neutral-700 hover:text-black transition-colors"
+        >
+          Privacy
+        </a>
+      </div>
     </footer>
   );
 }

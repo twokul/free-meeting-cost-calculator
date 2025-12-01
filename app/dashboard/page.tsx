@@ -1,5 +1,5 @@
 import { fetchMeetingData } from "@/app/actions/calendar";
-import DashboardClient from "./dashboard-client";
+import DashboardWrapper from "./dashboard-wrapper";
 import { redirect } from "next/navigation";
 
 export default async function DashboardPage() {
@@ -21,5 +21,5 @@ export default async function DashboardPage() {
     );
   }
 
-  return <DashboardClient initialMeetings={meetings} />;
+  return <DashboardWrapper initialMeetings={meetings} />;
 }

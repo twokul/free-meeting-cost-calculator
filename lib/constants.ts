@@ -66,7 +66,7 @@ export type ItemCategory =
  */
 export const PAY_FOR_X_ITEMS = [
   // Daily / relatable items - things people buy regularly
-  { name: "Fancy Coffee", cost: 6, icon: "☕", category: "daily" },
+  { name: "Coffee", cost: 6, icon: "☕", category: "daily" },
   { name: "Month of Netflix", cost: 23, icon: "📺", category: "daily" },
   { name: "Uber Ride", cost: 35, icon: "🚕", category: "daily" },
   { name: "Restaurant Lunch", cost: 20, icon: "🍔", category: "daily" },

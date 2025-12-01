@@ -26,24 +26,24 @@ function createMeeting(overrides: Partial<Meeting> = {}): Meeting {
 
 describe("calculateMeetingCost", () => {
   // New formula: duration × (yourRate + (attendees - 1) × blendedRate)
-  // Blended rate = $150/hr
+  // Blended rate = $175/hr
 
   test("calculates basic meeting cost with blended rate", () => {
-    // 1 hour, 5 attendees, you at $100/hr, 4 others at $150/hr
-    // = 1 × ($100 + 4 × $150) = $700
-    expect(calculateMeetingCost(1, 5, 100)).toBe(700);
+    // 1 hour, 5 attendees, you at $100/hr, 4 others at $175/hr
+    // = 1 × ($100 + 4 × $175) = $800
+    expect(calculateMeetingCost(1, 5, 100)).toBe(800);
   });
 
   test("handles fractional hours", () => {
-    // 1.5 hours, 4 attendees, you at $100/hr, 3 others at $150/hr
-    // = 1.5 × ($100 + 3 × $150) = 1.5 × $550 = $825
-    expect(calculateMeetingCost(1.5, 4, 100)).toBe(825);
+    // 1.5 hours, 4 attendees, you at $100/hr, 3 others at $175/hr
+    // = 1.5 × ($100 + 3 × $175) = 1.5 × $625 = $937.5
+    expect(calculateMeetingCost(1.5, 4, 100)).toBe(937.5);
   });
 
   test("handles different hourly rates", () => {
-    // 1 hour, 10 attendees, you at $150/hr, 9 others at $150/hr
-    // = 1 × ($150 + 9 × $150) = $1500 (same as before when your rate = blended)
-    expect(calculateMeetingCost(1, 10, 150)).toBe(1500);
+    // 1 hour, 10 attendees, you at $175/hr, 9 others at $175/hr
+    // = 1 × ($175 + 9 × $175) = $1750
+    expect(calculateMeetingCost(1, 10, 175)).toBe(1750);
   });
 
   test("returns 0 for zero duration", () => {
@@ -55,9 +55,9 @@ describe("calculateMeetingCost", () => {
   });
 
   test("handles large meetings", () => {
-    // 3 hours, 50 attendees, you at $200/hr, 49 others at $150/hr
-    // = 3 × ($200 + 49 × $150) = 3 × $7550 = $22,650
-    expect(calculateMeetingCost(3, 50, 200)).toBe(22650);
+    // 3 hours, 50 attendees, you at $200/hr, 49 others at $175/hr
+    // = 3 × ($200 + 49 × $175) = 3 × $8775 = $26,325
+    expect(calculateMeetingCost(3, 50, 200)).toBe(26325);
   });
 
   test("solo meeting uses only your rate", () => {
@@ -67,9 +67,9 @@ describe("calculateMeetingCost", () => {
   });
 
   test("director rate with typical attendees", () => {
-    // 1 hour, 5 attendees, you (director) at $500/hr, 4 others at $150/hr
-    // = 1 × ($500 + 4 × $150) = $1100
-    expect(calculateMeetingCost(1, 5, 500)).toBe(1100);
+    // 1 hour, 5 attendees, you (director) at $500/hr, 4 others at $175/hr
+    // = 1 × ($500 + 4 × $175) = $1200
+    expect(calculateMeetingCost(1, 5, 500)).toBe(1200);
   });
 });
 
@@ -90,16 +90,16 @@ describe("calculateMentalTax", () => {
       createMeeting({ id: "2" }),
       createMeeting({ id: "3" }),
     ];
-    // 3 meetings × 0.33 hours = 0.99 hours
-    expect(calculateMentalTax(meetings)).toBeCloseTo(0.99, 2);
+    // 3 meetings × (20/60) hours = 1 hour
+    expect(calculateMentalTax(meetings)).toBe(1);
   });
 
   test("calculates mental tax for 10 meetings", () => {
     const meetings = Array.from({ length: 10 }, (_, i) =>
       createMeeting({ id: `meeting-${i}` }),
     );
-    // 10 meetings × 0.33 hours = 3.3 hours
-    expect(calculateMentalTax(meetings)).toBeCloseTo(3.3, 2);
+    // 10 meetings × (20/60) hours = 10/3 hours ≈ 3.333
+    expect(calculateMentalTax(meetings)).toBeCloseTo(10 / 3, 5);
   });
 });
 
@@ -168,7 +168,7 @@ describe("getPayForXComparisons", () => {
   });
 
   test("returns empty array for very small cost", () => {
-    // Less than cheapest item (Fancy Coffee at $6)
+    // Less than cheapest item (Coffee at $6)
     expect(getPayForXComparisons(5)).toEqual([]);
   });
 
@@ -240,11 +240,13 @@ describe("getCategorizedPayForX", () => {
 
   test("calculates correct quantities", () => {
     const result = getCategorizedPayForX(1000);
-    // At $1000, we can afford 166 coffees at $6 each
-    const coffeeItem = result.daily?.find(
-      (item) => item.name === "Fancy Coffee",
+    // At $1000, daily category should exist with affordable items
+    expect(result.daily).toBeDefined();
+    // Standing Desk at $1000 = 1 item
+    const deskItem = result.daily?.find(
+      (item) => item.name === "Standing Desk",
     );
-    expect(coffeeItem?.quantity).toBe(Math.floor(1000 / 6));
+    expect(deskItem?.quantity).toBe(1);
   });
 });
 

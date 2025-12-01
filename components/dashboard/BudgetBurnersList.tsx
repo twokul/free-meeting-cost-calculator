@@ -7,8 +7,27 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Users, Clock } from "lucide-react";
+import { Users, Clock, Calendar } from "lucide-react";
 import { Meeting } from "@/lib/metrics";
+
+function formatMeetingDate(date: Date): string {
+  return new Intl.DateTimeFormat("en-US", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  }).format(date);
+}
+
+function formatDuration(hours: number): string {
+  if (hours >= 1) {
+    const roundedHours = Math.round(hours);
+    return `${roundedHours} hour${roundedHours !== 1 ? "s" : ""}`;
+  }
+  const minutes = Math.round(hours * 60);
+  return `${minutes} minutes`;
+}
 
 interface BudgetBurnersListProps {
   meetings: Meeting[];
@@ -41,11 +60,15 @@ export function BudgetBurnersList({
                 <p className="font-medium truncate">{meeting.title}</p>
                 <div className="flex flex-wrap items-center gap-2 md:gap-4 text-xs md:text-sm text-muted-foreground">
                   <span className="flex items-center gap-1">
+                    <Calendar className="h-3 w-3" />{" "}
+                    {formatMeetingDate(new Date(meeting.startTime))}
+                  </span>
+                  <span className="flex items-center gap-1">
                     <Users className="h-3 w-3" /> {meeting.attendees}
                   </span>
                   <span className="flex items-center gap-1">
                     <Clock className="h-3 w-3" />{" "}
-                    {meeting.durationInHours.toFixed(1)}h
+                    {formatDuration(meeting.durationInHours)}
                   </span>
                   {meeting.isRecurring && (
                     <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 text-[10px]">
